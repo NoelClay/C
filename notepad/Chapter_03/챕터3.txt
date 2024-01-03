@@ -1,0 +1,50 @@
+1. getchar()
+매개변수 없음. 사용자 입력버퍼가 비워져 있으면 버퍼를 채울때까지 기다림(엔터 입력 까지) 
+이후 입력 버퍼에서 FIFO로 하나 뽑아 반환 int형을 반환하지만, char형에 넣어도 동작
+
+2. int putchar(int c)
+매개변수를 하나 출력함. 리터럴 상수 값이 될 수도 있고, 변수값이 될 수도 있음. 암튼 한번 동작하면 콘솔에 출력함
+
+3. _getch() / _getche()
+겟차 처럼 문자 하나 반환하는 함수는 맞는데, 버퍼에 채워져있건 말건 얘는 호출된 시점에 문자 입력 하나가 들어올때까지 기다림
+엔터 입력없이 하나라도 들어오면 콘솔 입력값 반환
+
+4. char* gets(char* buffer);
+콘솔에서 입문자열을 입력받아 buffer에 저장하는 함수
+
+5. int puts(const char* string);
+문자열을 매개변수로 입력 받으면 콘솔에 출력하는 함수
+
+6.gets 함수의 보안결함.
+buffer의 매개변수명 만으로는 buffer의 메모리 크기를 알 수 없다. 오버플로우 발생을 막기위한 함수가
+char* gets_s(char* buffer, size_t sizeInCharacters);
+동일한데, 두번째 인자로 buffer의 메모리 크기를 넣어줘야함.
+
+7. int printf(const char* format, ...)
+이 선언에서 주목할 점은 ... 부분입니다. 이는 가변 인자(variadic arguments)를 나타냄.
+그리고 printf에서는 형식문자열을 사용한다. 생겨먹은건 %d %lf 같이 생겨먹음. 이자식들이 쓰인 갯수만큼 뒤에 argument들이
+하나씩 컴마로 늘어남. 아규먼트에 들어가는 변수값을 어떤 형식으로 읽어들일건가에대한 예약어의 역할을 형식문자열이 함.
+
+연습문제
+03-01 
+
+#include <stdio.h>
+
+char main(char blank, int soso, char* buff)
+{
+    printf("나이를 입력하세요. : ");
+    int age = 0;
+    scanf("%d", &age);
+    printf("이름을 입력하세요. : ");
+    char name[20] = {0};
+    getchar ();
+    gets(name);
+
+    printf("당신의 나이는 %d살이고 이름은 '%s' 입니다.", age, name);
+
+    return 0;
+}
+
+
+
+

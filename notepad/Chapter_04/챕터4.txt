@@ -1,0 +1,52 @@
+연습문제
+4-1
+
+#include <stdio.h>
+
+int main()
+{
+    printf("두 정수를 입력 하시오. : ");
+    int a, b;
+    scanf("%d%d", &a, &b);
+    printf("AVG : %lf", (a+b)/2.0);
+
+    return 0;
+}
+
+연습문제
+4-2
+
+#include <stdio.h>
+
+int main()
+{
+    printf("초를 입력하면 시 분 초로 나눠줍니다. : ");
+    int a;
+    scanf("%d", &a);
+    printf("\n %d초는 %02d시간 %02d분 %02d초 입니다.", a, a/(60*60), a%(60*60)/60, a%60);
+
+    return 0;
+}
+
+연습문제
+누적
+
+#include <stdio.h>
+
+int main()
+{
+    printf("입력값을 누적합 합니다.. : ");
+    int nInput, nTotal;
+    nTotal = 0;
+    for(int i = 0; i<3; i++){
+        scanf("%d%*c", &nInput);
+        nTotal += nInput;
+    }
+    printf("Total : %d\n", nTotal);
+
+    return 0;
+}
+
+1. 단항 증감 연산자는 전위면 최상위고 후위면 거진 최하위다.
+rusult = ++x; result x and same value
+result = x++; result is lower than x
