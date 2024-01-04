@@ -1,0 +1,62 @@
+1)
+세로 지그재그
+지그재그의 핵심은 방향이 한번 바뀔때를 알면된다.
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[5][5] = {0};
+    int nCount = 0, flag = 1;
+    
+    for(int i =0; i<5; i++){
+        for(int j = 0; j<5; j++){
+            if(flag ==1){
+                aList[j][i] = ++nCount;
+            }
+            else
+                aList[4-j][i] = ++nCount;
+        }
+        flag *= -1;
+    }
+    //막열 2번째행부터 마이너스진행, 막행 열방향 마이너스진행
+    //첫열 행방향 플러스, 
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5 ; j++)
+            printf("%d\t", aList[i][j]);
+        puts("");
+    }
+}
+
+2) 반시계 달팽이 구현
+
+행열 진행디렉션의 부호가 바뀌는 걸로 구현하면
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[5][5] = {0};
+    int nCount = 0, dir = -1;
+    int x= 5, y=0;
+    int nlength = 5+4;
+    
+    for(int nlength = 9; nlength>0; nlength-=2){
+        for(int progress = 0 ;  progress < nlength ; progress++ ){
+            if(progress < nlength/2 + 1)
+                x += dir;
+            else
+                y -= dir;
+            aList[y][x] = ++nCount;
+        }
+        dir *= -1;
+    }
+    
+    //막열 2번째행부터 마이너스진행, 막행 열방향 마이너스진행
+    //첫열 행방향 플러스, 
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5 ; j++)
+            printf("%d\t", aList[i][j]);
+        puts("");
+    }
+}

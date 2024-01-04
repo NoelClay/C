@@ -1,0 +1,162 @@
+1. 선택정렬과 버블정렬 그리고 선택정렬로 알려진 버블정렬
+선택정렬 : 모든 후보를 탐색하여 가장 최하단 혹은 최상단 값을 선택하여 인덱스별 값을 확정지어 나가는 정렬
+버블정렬 : 최하단 최상단 값을 찾기 위해 현재 인덱스의 값과 다음 인덱스의 값을 비교하고 교환해나가며 정렬
+선택정렬은 모든 수가 전부 후보이며 temp에 넣고 계속해서 탐색 후 마지막에 값을 확정 짓는 반면, 
+버블정렬은 1대1 승부로 바로 최대최소를 결정지으며 계속해서 값을 교환하다 마지막 승부까지 이긴놈이 끝부터 정렬됨.
+선택정렬로 알려진 버블정렬은 1대1 승부로 바로바로 최대최소를 결정지으며 계속해서 값을 교환하기는 하는데 끝부터 정렬하는게 아니라
+처음값이랑 계속 비교하며 처음값을 확정짓는 방식이다.
+
+09-01 선택정렬로 알려진 버블정렬 구현
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[5] = {30, 40, 10, 50, 20};
+    int i = 0, j = 0, nTmp = 0;
+    
+    for(i = 0; i<5 ; i++){
+        for(j=i; j<5; j++){
+            if(aList[i] > aList[j]){
+                nTmp = aList[i];
+                aList[i] = aList[j];
+                aList[j] = nTmp;
+            }
+        }
+        printf("%d\t", aList[i]);
+    }
+}
+
+
+09-02 버블정렬 구현
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[5] = {30, 40, 10, 50, 20};
+    int i = 0, j = 0, nTmp = 0;
+    
+    for(i = 4; i>0 ; i--){
+        for(j=0; j<i; j++){
+            if(aList[j] > aList[j+1]){
+                nTmp = aList[j];
+                aList[j] = aList[j+1];
+                aList[j+1] = nTmp;
+            }
+        }
+    }
+    for(i=0; i<5; i++)  printf("%d\t", aList[i]);
+}
+
+09-03 선택 정렬 구현
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[5] = {30, 40, 10, 50, 20};
+    int i = 0, j = 0, nTmp = 0, nMinIdx = 0;
+    
+    for(i = 0; i<5 ; i++){
+        nMinIdx = i;
+        for(j=i; j<5; j++){
+            if(aList[nMinIdx] > aList[j]){
+                nMinIdx = j;
+            }
+        }
+        nTmp = aList[i];
+        aList[i] = aList[nMinIdx];
+        aList[nMinIdx] = nTmp;
+    }
+    for(i=0; i<5; i++)  printf("%d\t", aList[i]);
+}
+
+
+-교차-
+#include <stdio.h>
+
+int main()
+{
+    int aList[5][5] = {0};
+    int i = 0, j = 0, nCount = 0;
+    
+    for(i = 0; i<5 ; i++){
+        for(j=0; j<5; j++){
+            if(i%2 == 0){
+                aList[i][j] = ++nCount;
+            }
+            else    
+                aList[i][4-j] = ++nCount;
+        }
+    }
+    for(i=0; i<5; i++){
+        for(j=0; j<5 ; j++)
+            printf("%d\t", aList[i][j]);
+        puts("");
+    }
+}
+
+09-04 달팽이 배열 채우기
+
+동[0][0~3]
+남[0~3][4]
+서[4][4~1]
+북[4~1][0] 
+
+동[1][1~2]
+남[1~2][3]
+서[3][3~2]
+북[3~2][1]
+
+동[2][2]
+
+가장 겉에는 동남서북의 개수 한면의 길이의 나누기 2의 몫
+만약 %2 != 0 이라면 마지막에 센터에 한틱 있다는 소리.
+한틱에 총 진행 길이는 최대길이는 초기화 -1
+그 다음틱은 양쪽에 하나씩 차있으니까 -2씩 계속 감소 하다가 1남는 경우의 수가 생김
+
+#include <stdio.h>
+
+int main()
+{
+    int aList[6][6] = {0};
+    int i = 0, j = 0, x = 0, loffset = 6+1, start = -1, end = 6, nCount = 0;
+    
+    //동서남북이 몇번? 2 나눈만큼
+    for(x = 0; x<6/2 ; x++){
+        loffset -= 2;
+        start += 1, end -= 1;
+        if(loffset<=0) break;
+        for(i = 0 ; i< loffset*4; i++){
+            if(i<loffset){
+                //동쪽으로 갈게
+                aList[start][i+start] = ++nCount;
+            }
+            else if(i<loffset*2){
+                //남쪽으로 갈게
+                aList[i+start-loffset][end]= ++nCount;
+            }
+            else if(i<loffset*3){
+                //서쪽으로 갈게
+                aList[end][loffset*3 - i+start]= ++nCount;
+            }
+            else{
+                //북쪽으로 갈게
+                aList[loffset*4-i+start][start]= ++nCount;
+            }
+        }
+    }
+    if(6%2 != 0){
+        aList[6/2][6/2] = 6*6;
+    }
+    //막열 2번째행부터 마이너스진행, 막행 열방향 마이너스진행
+    //첫열 행방향 플러스, 
+    for(i=0; i<6; i++){
+        for(j=0; j<6 ; j++)
+            printf("%d\t", aList[i][j]);
+        puts("");
+    }
+}
+
+
