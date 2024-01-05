@@ -1,0 +1,36 @@
+1)
+인트형 4개 입력받아 가장 작은 숫자 반환하는 GetMin() 작성
+
+int GetMin(int a, int b, int c, int d){
+    int min = a;
+    if(min > b) min = b;
+    if(min > c) min = c;
+    if(min > d) min = d;
+    
+    return min;
+}
+
+
+
+2) 구현되어 있던 GetFactorial()의 문제점
+펙토리얼로 계산하는 함수 안에 UI적인 기능과, 계산 기능 2개가 다 있는데 이를 분리하면 된다.
+
+
+
+3) GetFee 함수 작성 매개변수는 기본요금과 나이
+
+int GetFee(int origin, int age){
+    if(age < 4)         origin*=0;
+    else if(age < 14)   origin*=0.5;
+    else if(age < 20)   origin*=0.25;
+    return origin;
+}
+
+
+
+4) 함수의 원형 선언은 소스를 순차적으로 읽는 컴파일러에게 main() 안에서 호출하고 있는 함수 이름이
+틀린 이름이 아니라는 것을 알려줍니다. 순차적으로 읽을때 함수의 원형 선언으로 인해 밑에 있는 함수 이름을 찾아 링크합니다.
+
+
+
+5) 20 100 11
