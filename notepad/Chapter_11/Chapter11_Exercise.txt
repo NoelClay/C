@@ -1,36 +1,83 @@
 1)
-인트형 4개 입력받아 가장 작은 숫자 반환하는 GetMin() 작성
+ndata는 변수명 , &ndata는 변수명에 &주소 연산자를 취한 꼴
+ndata의 r-value 결과값 : ndata 변수의 주소로 들어가서 저장되어 있는 데이터를 선언한 자료형에 맞게 해석
+&ndata의 r-value 결과값 : ndata 변수가 선언될때 메모리에 할당한 주소값을 반환함
 
-int GetMin(int a, int b, int c, int d){
-    int min = a;
-    if(min > b) min = b;
-    if(min > c) min = c;
-    if(min > d) min = d;
+2)
+매개변수로 char*형 자료를 받아서 문자열 길이 계산하는 함수
+#include <stdio.h>
+
+int GetLength(char *cString){
+    int i=0;
+    if(*cString == 0)
+    return i;
+    else{
+        while(*(cString+i)!=0)
+            i++;
+    }
+    return(i);
+}
+
+int main()
+{
+    printf("Hello World");
     
-    return min;
+    puts("");
+    
+    printf("%d\n%d", GetLength("12341234"), GetLength(""));
+
+    return 0;
+}
+
+3)
+char szBuffer[12] = {"HelloWorld"}; 
+허용되지 않은 문법. 그냥 문자열을 대입하면 char형 배열에 맞춰서 대입되는데, 굳이 알려주지도 않은 {} 안에 그냥 문자열을 넣는건 잘못된 방식
+{}쓰면 내부 요소라고 판단해버리기 때문에, szBuffer[0] 에 "HelloWorld"를 갑자기 넣겠다고 하는 꼴
+
+스코프 마지막에 free(pszData) 를 하지 않는 행위는 치며적인 오류
+
+
+4)strrev는 char*형을 받아서 뒤집는 함수
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int GetLength(char *cString){
+    int i=0;
+    if(*cString == 0)
+    return i;
+    else{
+        while(*(cString+i)!=0)
+            i++;
+    }
+    return(i);
+}
+char* MyStrrevTempVal(char *cString){
+    int len = GetLength(cString);
+    if(len<=1){
+        return cString;
+    }
+    else{
+        char* tString = (char*)malloc(sizeof(char) * (len+1));
+        for(int i = 0; i<len; i++){
+            *(tString+i) = *(cString+(len-1-i));
+        }
+        *(tString+len) = 0; 
+        return tString;
+    }
+}
+
+int main()
+{
+    printf("Hello World");
+    
+    puts("");
+    
+    printf("%d\n%d\n", GetLength("12341234"), GetLength(""));
+    printf("%s\n%s\n", MyStrrevTempVal("12341234"), MyStrrevTempVal("icanfly"));
+
+    return 0;
 }
 
 
 
-2) 구현되어 있던 GetFactorial()의 문제점
-펙토리얼로 계산하는 함수 안에 UI적인 기능과, 계산 기능 2개가 다 있는데 이를 분리하면 된다.
-
-
-
-3) GetFee 함수 작성 매개변수는 기본요금과 나이
-
-int GetFee(int origin, int age){
-    if(age < 4)         origin*=0;
-    else if(age < 14)   origin*=0.5;
-    else if(age < 20)   origin*=0.25;
-    return origin;
-}
-
-
-
-4) 함수의 원형 선언은 소스를 순차적으로 읽는 컴파일러에게 main() 안에서 호출하고 있는 함수 이름이
-틀린 이름이 아니라는 것을 알려줍니다. 순차적으로 읽을때 함수의 원형 선언으로 인해 밑에 있는 함수 이름을 찾아 링크합니다.
-
-
-
-5) 20 100 11
