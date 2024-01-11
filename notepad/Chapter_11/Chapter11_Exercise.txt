@@ -79,5 +79,91 @@ int main()
     return 0;
 }
 
+5) 와따마 어렵다잉
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char* ShowQueReturnStr(char* pCStr, int* nSize, int* lastIDX);
+char* ReAllocSetnull(char* pCStr, int* nSize);
+int EndTrriger = 1;
+
+int main() {
+    int countcall = 0;
+    int nSize = 10;
+    char* pCStr = (char*)calloc(nSize + 1, sizeof(char));
+    int lastIDX = 0;
+    while(EndTrriger){
+        pCStr = ShowQueReturnStr(pCStr, &nSize, &lastIDX);
+        countcall++;
+        if(nSize >= 3000 || countcall>30){
+            EndTrriger--;
+        }
+    }
+    free(pCStr); // Free the allocated memory
+    return 0;
+}
+
+char* ShowQueReturnStr(char* pCStr, int* nSize, int* lastIDX) {
+    printf("문자열 입력하세요\n");
+    int cnt = *lastIDX;
+    char ctemp;
+
+    while ((ctemp = getchar()) != '\n') {
+        if (cnt >= *nSize) {
+            pCStr = ReAllocSetnull(pCStr, nSize); // Update pCStr when reallocated
+        }
+        pCStr[cnt++] = ctemp; // Use array notation for clarity
+    }
+
+    pCStr[cnt] = '\0'; // Null-terminate the string
+    *lastIDX = cnt;
+    
+    printf("새로 저장된 문자열은\n%s\n", pCStr);
+    return pCStr;
+}
+
+char* ReAllocSetnull(char* pCStr, int* nSize) {
+    *nSize += 10;
+    pCStr = (char*)realloc(pCStr, sizeof(char) * (*nSize + 1));
+    //memset(pCStr + *nSize, '\0', sizeof(char));
+    return pCStr;
+}
 
 
+6)
+#include <stdio.h>
+#include <stdlib.h>
+
+void UserInterface(int* nSizePointer, int* nSizeString);
+
+int main() {
+    int nSizePointer = 0;
+    int nSizeString = 0;
+
+    UserInterface(&nSizePointer, &nSizeString);
+
+    // 배열 포인터를 사용하여 2차원 문자열 배열 할당
+    char (*ppchar)[nSizeString] = malloc(nSizePointer * sizeof(*ppchar));
+
+    for (int i = 0; i < nSizePointer; i++) {
+        printf("%d행 문자열 입력하쇼: ", i + 1);
+        scanf("%s", ppchar[i]);
+    }
+
+    for (int i = 0; i < nSizePointer; i++) {
+        printf("%d행 문자열: %s\n", i + 1, ppchar[i]);
+    }
+
+    // 메모리 해제
+    free(ppchar);
+
+    return 0;
+}
+
+void UserInterface(int* nSizePointer, int* nSizeString) {
+    printf("문장의 갯수를 입력하시오.\n");
+    scanf("%d", nSizePointer);
+    printf("문장의 최대 길이를 입력하시오.\n");
+    scanf("%d", nSizeString);
+}
