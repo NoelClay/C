@@ -1,0 +1,73 @@
+1. 호출자에 기술하는 매개변수가 값형식인지 참조형식인지에 따라 반환 동작의 영역이 달라질 수 있다.
+
+2. 강력한 결합은 항상 부작용이 크지만, 강력한 결합이 필요할땐 사용하는 것이 오히려 유지보수에 도움이 된다.
+
+3. c언어에서 값 전달방식은 main 함수내에 기술하는 것과 마찬가지로 사용하여 직관성이 좋다.
+	c언어에서 참조 전달 방식은 선언단계에서 포인터 방식으로 선언하고, 매개변수로는 포인터 형식에 맞는 주소값을 전달한다.
+
+4. 함수의 원형에서 포인터 파라미터를 사용하게 되면 문제점이 포인터 자료형만으로는 그 크기를 가늠할 수 가 없다. 따라서 항상
+함수 선언단계에서 포인터를 사용할땐 포인터 메모리의 크기를 같이 선언하여 사용하는 방식을 기본으로 취하자.
+
+12-01 문자열을 복사하는 함수 만들기(DeepCopy)
+#include <stdio.h>
+
+void MyStrCpy(char origin[], int nSize, char target[12]);
+
+int main()
+{
+
+    char szBufferSrc[12] = "TestString";
+    char szBufferDst[12] = {0};
+    printf("%d",sizeof(szBufferSrc) );
+    MyStrCpy(szBufferSrc, sizeof(szBufferSrc), szBufferDst);
+    puts("문자열은~~~");
+    puts(szBufferDst);
+
+    return 0;
+}
+
+void MyStrCpy(char origin[], int nSize, char target[]){
+    int len = nSize/(sizeof(char));
+    printf("%d", len );
+    
+    for(int i = 0; i<len; i++ ){
+        printf("%c", *(origin+i));
+        *(target+i) = *(origin+i);
+    }
+}
+
+
+[매개변수 참조형이라면]
+
+#include <stdio.h>
+
+void MyStrCpy(char (*origin)[12], int nSize, char (*target)[12]);
+
+int main()
+{
+
+    char szBufferSrc[12] = "TestString";
+    char szBufferDst[12] = {0};
+    printf("%d",sizeof(szBufferSrc) );
+    MyStrCpy(&szBufferSrc, sizeof(szBufferSrc), &szBufferDst);
+    puts("문자열은~~~");
+    puts(szBufferDst);
+
+    return 0;
+}
+
+void MyStrCpy(char (*origin)[12], int nSize, char (*target)[12]){
+    int len = nSize/(sizeof(char));
+    printf("%d", len );
+    
+    for(int i = 0; i<len; i++ ){
+        printf("%c", *(*(origin)+i));
+        *(*(target)+i) = *(*(origin)+i);
+    }
+}
+
+5. 함수의 반환으로 값을 전달할때 만약 주소값을 전달한다면, 유효한 주소값을 전달해야 에러를 막는다.
+자동변수는 스코프를 벗어나면 실존하지 않는 변수이다. 이거의 주소를 그냥 전달하는 방식은 옳은 개념이 아니지만,
+막상 자동변수가 해제된다 한들 그 안에 값은 그대로 쓰레기값으로 남아있는데 그 쓰레기값이 마치 맞는 값인것처럼 작동할 수 있음
+-> 메모리 재할당 등으로 리프레쉬 되는 순간 진짜 리얼 쓰레기값을 참조하게 되어버리는거
+

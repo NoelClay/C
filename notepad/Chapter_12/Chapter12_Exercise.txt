@@ -1,0 +1,33 @@
+1) 매개변수로 검색 대상 문자열의 주소, 그 대상 문자열에서 찾고자 하는 문자열의 주소
+성공하면 대상 문자열에서 저장된 위치의 인덱스 반환 기능적으로 strstr()과 동일
+but 반환자료형이 인덱스라는 점~ 만일 실패하면 -1 이다.
+
+#include <stdio.h>
+
+int MyStrStr(char* *origin, char* *target);
+
+int main()
+{
+
+    char* String = "12345678912341234000";
+    char* token = "000";
+    int result = 0;
+    
+    result = MyStrStr(&String, &token);
+    
+    printf("%d",result );
+    return 0;
+}
+
+int MyStrStr(char* *origin, char* *target){
+    int i = 0;
+    while(*(*(origin)+i) != '\0'){
+        int j = 0;
+        while( *(*(origin)+(i+j)) == *(*(target)+j) ){
+            j++;
+            if(*(*(target)+j) == '\0')  return i;
+        }
+        i++;
+    }
+    return -1;
+}
